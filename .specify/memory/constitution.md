@@ -1,50 +1,162 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+<!--
+Sync Impact Report:
+- Version: Initial → 1.0.0
+- Rationale: Initial constitution establishment for ImageTools project
+- Modified principles: N/A (initial creation)
+- Added sections: All core principles, quality standards, development workflow
+- Removed sections: N/A
+- Templates status:
+  ✅ plan-template.md: Reviewed - Constitution Check section compatible
+  ✅ spec-template.md: Reviewed - Requirements align with testability principle
+  ✅ tasks-template.md: Reviewed - Task structure supports MVP-first approach
+  ⚠ commands/*.md: No command files found to update
+- Follow-up TODOs: None
+-->
 
-## Core Principles
+# ImageTools 專案憲章
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+## 核心原則
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+### 一、最小可行產品優先 (MVP-First)
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+每個功能必須從最小可行產品開始：
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+- 必須明確定義核心價值：每個功能必須回答「解決什麼問題」
+- 必須優先實作 P1 使用者故事：延後非核心功能
+- 必須可獨立交付：每個功能增量都能獨立演示和驗證
+- 禁止過度設計：拒絕「未來可能需要」的功能
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+**理由**：快速驗證價值假設，減少浪費，加速學習循環。
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+### 二、可測試性 (Testability)
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
+所有需求和實作必須可測試：
 
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
+- 需求必須可驗證：每個功能需求必須有明確的驗收標準
+- 必須先寫測試：測試失敗 → 實作 → 測試通過（紅綠重構循環）
+- 必須使用合約測試：驗證所有模組介面和 API 端點
+- 必須可獨立測試：每個元件能夠脫離整體系統進行測試
 
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+**理由**：確保品質可度量，需求可追溯，變更有信心。
 
-## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
+### 三、高品質標準 (High Quality)
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+程式碼和文件必須維持高品質：
 
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+- 必須遵循既定慣例：程式碼風格、命名、結構保持一致
+- 必須有完整文件：每個模組包含用途說明、使用範例、API 文件
+- 必須處理邊界情況：錯誤處理、空狀態、異常流程都要明確定義
+- 必須進行程式碼審查：所有變更需經過審查才能合併
+
+**理由**：高品質降低維護成本，提升開發效率，減少技術債。
+
+### 四、簡約原則 (Simplicity)
+
+保持實作簡單直接：
+
+- 必須選擇最簡方案：優先使用標準函式庫和成熟工具
+- 必須避免過早抽象：等到出現三次重複再抽象
+- 必須拒絕複雜度：每增加一層抽象都需要明確理由
+- 必須遵循 YAGNI：You Aren't Gonna Need It - 不實作目前不需要的功能
+
+**理由**：簡單系統更容易理解、測試、維護和擴展。
+
+### 五、繁體中文優先 (Traditional Chinese First)
+
+所有專案文件和註解使用繁體中文：
+
+- 必須使用繁體中文撰寫：規格文件、計畫、任務清單、註解
+- 程式碼可使用英文：變數名稱、函式名稱、類別名稱使用英文
+- 必須使用繁體中文溝通：團隊討論、程式碼審查、問題追蹤
+- 技術術語保留英文：專有名詞可保留英文或註記英文對照
+
+**理由**：降低溝通成本，提升團隊效率，確保知識傳承無障礙。
+
+## 品質標準
+
+### 測試涵蓋範圍
+
+- 合約測試：必須涵蓋所有公開 API 和模組介面
+- 整合測試：必須涵蓋關鍵使用者旅程和資料流
+- 單元測試：可選，僅在需要驗證複雜邏輯時使用
+- 邊界測試：必須涵蓋錯誤處理、空值、極端輸入
+
+### 文件完整性
+
+- 每個功能必須包含：需求規格、實作計畫、驗收標準
+- 每個模組必須包含：用途說明、使用範例、API 文件
+- 每個公開函式必須有：功能描述、參數說明、回傳值說明
+- 每個使用者故事必須有：情境描述、驗收場景、獨立測試方法
+
+### 效能目標
+
+- 回應時間：一般操作 < 1 秒，批次處理根據資料量合理設定
+- 資源使用：記憶體使用合理，不得有明顯記憶體洩漏
+- 可擴展性：設計支援未來擴展，但不過度設計目前不需要的擴展點
+
+## 開發工作流程
+
+### 功能開發流程
+
+1. **需求階段**：使用 `/speckit.specify` 建立功能規格
+   - 明確定義使用者故事和驗收標準
+   - 識別並排除非必要功能
+   - 標記需要釐清的項目（每個功能最多 3 個）
+
+2. **規劃階段**：使用 `/speckit.plan` 建立實作計畫
+   - 定義技術架構和相依性
+   - 檢查憲章合規性
+   - 建立資料模型和 API 合約
+
+3. **任務分解**：使用 `/speckit.tasks` 產生任務清單
+   - 按使用者故事組織任務
+   - 每個故事必須可獨立實作和測試
+   - 標記可平行執行的任務
+
+4. **實作階段**：使用 `/speckit.implement` 執行實作
+   - 先寫測試，確認失敗
+   - 實作最小可行方案
+   - 確認測試通過
+   - 完成文件
+
+### 審查要求
+
+- 所有程式碼變更必須經過審查
+- 審查重點：憲章合規性、測試覆蓋、文件完整性、程式碼品質
+- 拒絕過度設計的實作
+- 要求補充缺失的測試或文件
+
+### 品質檢查點
+
+- 規格階段：需求清晰度、可測試性、範圍合理性
+- 計畫階段：技術選擇合理性、複雜度正當性、合規性檢查
+- 實作前：確認測試清單存在且完整
+- 實作後：測試通過、文件完整、程式碼審查通過
+
+## 治理規範
+
+### 憲章權威
+
+- 本憲章凌駕所有其他開發慣例
+- 違反核心原則的實作必須退回重做
+- 增加複雜度必須有明確理由並記錄在案
+- 過度設計視為技術債務，必須移除
+
+### 修訂程序
+
+- 修訂提案必須包含：修改理由、影響範圍、遷移計畫
+- 修訂必須更新版本號：
+  - MAJOR：移除或重新定義核心原則
+  - MINOR：新增原則或重大擴充
+  - PATCH：澄清、措辭調整、非語意改善
+- 修訂必須同步更新：相關模板、指引文件、專案文件
+- 修訂必須產生影響報告：列出所有受影響的檔案和待辦事項
+
+### 合規性審查
+
+- 所有功能規格必須通過憲章檢查
+- 所有實作計畫必須驗證合規性
+- 所有程式碼審查必須驗證憲章遵循
+- 發現違規必須立即處理，不得累積技術債
+
+**版本**: 1.0.0 | **批准日期**: 2025-10-31 | **最後修訂**: 2025-10-31

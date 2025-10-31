@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>圖片轉換測試</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 20px;
+    }
+    .test-section {
+      margin-bottom: 30px;
+      padding: 20px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+    }
+    button {
+      padding: 10px 20px;
+      margin: 5px;
+      cursor: pointer;
+    }
+    #result {
+      margin-top: 20px;
+      padding: 15px;
+      background: #f0f0f0;
+      border-radius: 4px;
+      white-space: pre-wrap;
+      font-family: monospace;
+      font-size: 12px;
+    }
+    #preview {
+      margin-top: 20px;
+    }
+    #preview img {
+      max-width: 400px;
+      border: 1px solid #ccc;
+    }
+  </style>
+</head>
+<body>
+  <h1>圖片格式轉換測試</h1>
+  
+  <div class="test-section">
+    <h2>測試 1: 上傳並轉換圖片</h2>
+    <input type="file" id="fileInput" accept="image/*">
+    <button onclick="testConvert()">轉換為 PNG</button>
+    <button onclick="testConvertJPEG()">轉換為 JPEG</button>
+    <div id="result">等待測試...</div>
+    <div id="preview"></div>
+  </div>
+
+  <script type="module">
+    import { ImageConverter } from './src/services/imageConverter.js';
+    
+    window.converter = new ImageConverter();
+    
+    window.testConvert = async function() {
+      const fileInput = document.getElementById('fileInput');
+      const result = document.getElementById('result');
+      const preview = document.getElementById('preview');
+      
+      if (!fileInput.files.length) {
+        result.textContent = '請先選擇檔案';
+        return;
+      }
+      
+      const file = fileInput.files[0];
+      result.textContent = `開始轉換: ${file.name} (${file.type}, ${file.size} bytes)`;
+      
+      try {
+        console.log('開始轉換...', file);
+        const converted = await window.converter.convertToFormat(file, 'image/png');
+        console.log('轉換成功:', converted);
+        
+        result.textContent = `轉換成功！
+原始格式: ${converted.metadata.originalFormat}
+輸出格式: ${converted.metadata.outputFormat}
+原始大小: ${converted.metadata.originalSize} bytes
+輸出大小: ${converted.metadata.outputSize} bytes
+尺寸: ${converted.metadata.width} × ${converted.metadata.height}
+壓縮比: ${converted.metadata.compressionRatio}
+耗時: ${converted.metadata.duration} ms`;
+        
+        // 顯示預覽
+        const url = URL.createObjectURL(converted.blob);
+        preview.innerHTML = `<img src="${url}" alt="Converted">`;
+        
+      } catch (error) {
+        console.error('轉換失敗:', error);
+        result.textContent = `轉換失敗: ${error.message}\n${error.stack}`;
+      }
+    };
+    
+    window.testConvertJPEG = async function() {
+      const fileInput = document.getElementById('fileInput');
+      const result = document.getElementById('result');
+      const preview = document.getElementById('preview');
+      
+      if (!fileInput.files.length) {
+        result.textContent = '請先選擇檔案';
+        return;
+      }
+      
+      const file = fileInput.files[0];
+      result.textContent = `開始轉換為 JPEG: ${file.name}`;
+      
+      try {
+        const converted = await window.converter.convertToFormat(file, 'image/jpeg', { quality: 0.9 });
+        
+        result.textContent = `轉換成功！
+原始格式: ${converted.metadata.originalFormat}
+輸出格式: ${converted.metadata.outputFormat}
+原始大小: ${converted.metadata.originalSize} bytes
+輸出大小: ${converted.metadata.outputSize} bytes
+尺寸: ${converted.metadata.width} × ${converted.metadata.height}
+壓縮比: ${converted.metadata.compressionRatio}
+耗時: ${converted.metadata.duration} ms`;
+        
+        // 顯示預覽
+        const url = URL.createObjectURL(converted.blob);
+        preview.innerHTML = `<img src="${url}" alt="Converted">`;
+        
+      } catch (error) {
+        console.error('轉換失敗:', error);
+        result.textContent = `轉換失敗: ${error.message}\n${error.stack}`;
+      }
+    };
+  </script>
+</body>
+</html>

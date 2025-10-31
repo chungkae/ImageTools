@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GifMaker 測試頁面</title>
+  
+  <link rel="stylesheet" href="/src/styles/reset.css">
+  <link rel="stylesheet" href="/src/styles/variables.css">
+  <link rel="stylesheet" href="/src/styles/layout.css">
+  <link rel="stylesheet" href="/src/styles/components.css">
+  <link rel="stylesheet" href="/src/styles/gif-maker.css">
+  
+  <style>
+    body {
+      padding: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    #test-container {
+      border: 2px solid #ccc;
+      padding: 20px;
+      border-radius: 8px;
+    }
+    .error {
+      background: #fee;
+      color: #c00;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 4px;
+    }
+    .success {
+      background: #efe;
+      color: #070;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+  <h1>GifMaker Component Test</h1>
+  
+  <div id="status"></div>
+  
+  <div id="test-container"></div>
+  
+  <script type="module">
+    import GifMaker from './src/components/GifMaker.js';
+    
+    const status = document.getElementById('status');
+    const container = document.getElementById('test-container');
+    
+    console.log('🧪 Starting GifMaker test...');
+    
+    try {
+      status.innerHTML = '<div class="info">Creating GifMaker instance...</div>';
+      console.log('Creating GifMaker...');
+      
+      const gifMaker = new GifMaker();
+      console.log('GifMaker created successfully');
+      
+      status.innerHTML = '<div class="info">Appending to DOM...</div>';
+      container.appendChild(gifMaker.getElement());
+      console.log('GifMaker element appended');
+      
+      status.innerHTML = '<div class="success">✅ GifMaker initialized successfully!</div>';
+      
+    } catch (error) {
+      console.error('❌ Test failed:', error);
+      console.error('Stack:', error.stack);
+      
+      status.innerHTML = `<div class="error">
+        <strong>❌ Error:</strong> ${error.message}<br>
+        <pre style="margin-top: 10px; overflow-x: auto;">${error.stack}</pre>
+      </div>`;
+    }
+  </script>
+</body>
+</html>

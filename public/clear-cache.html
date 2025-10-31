@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>清除快取 - 媒體轉換工具箱</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      max-width: 600px;
+      margin: 50px auto;
+      padding: 20px;
+      text-align: center;
+    }
+    button {
+      background: #3b82f6;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      margin: 10px;
+    }
+    button:hover {
+      background: #2563eb;
+    }
+    .status {
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 8px;
+      background: #f3f4f6;
+    }
+    .success {
+      background: #d1fae5;
+      color: #065f46;
+    }
+  </style>
+</head>
+<body>
+  <h1>🧹 清除快取工具</h1>
+  <p>如果遇到排版問題或樣式錯誤，請使用此工具清除所有快取</p>
+  
+  <button id="clear-cache-btn">清除所有快取</button>
+  <button id="unregister-sw-btn">移除 Service Worker</button>
+  <button id="reload-btn">重新載入應用程式</button>
+  
+  <div id="status" class="status"></div>
+
+  <script>
+    const statusEl = document.getElementById('status');
+
+    // 清除快取
+    document.getElementById('clear-cache-btn').addEventListener('click', async () => {
+      try {
+        // 清除所有快取
+        const cacheNames = await caches.keys();
+        await Promise.all(cacheNames.map(name => caches.delete(name)));
+        
+        // 清除 localStorage
+        localStorage.clear();
+        
+        // 清除 sessionStorage
+        sessionStorage.clear();
+        
+        statusEl.textContent = `✅ 已清除 ${cacheNames.length} 個快取、localStorage 和 sessionStorage`;
+        statusEl.className = 'status success';
+      } catch (error) {
+        statusEl.textContent = `❌ 清除失敗: ${error.message}`;
+        statusEl.className = 'status';
+      }
+    });
+
+    // 移除 Service Worker
+    document.getElementById('unregister-sw-btn').addEventListener('click', async () => {
+      try {
+        const registrations = await navigator.serviceWorker.getRegistrations();
+        await Promise.all(registrations.map(reg => reg.unregister()));
+        
+        statusEl.textContent = `✅ 已移除 ${registrations.length} 個 Service Worker`;
+        statusEl.className = 'status success';
+      } catch (error) {
+        statusEl.textContent = `❌ 移除失敗: ${error.message}`;
+        statusEl.className = 'status';
+      }
+    });
+
+    // 重新載入
+    document.getElementById('reload-btn').addEventListener('click', () => {
+      window.location.href = '/';
+    });
+
+    // 顯示當前快取狀態
+    (async () => {
+      const cacheNames = await caches.keys();
+      const registrations = await navigator.serviceWorker.getRegistrations();
+      
+      statusEl.textContent = `
+        目前有 ${cacheNames.length} 個快取
+        目前有 ${registrations.length} 個 Service Worker
+        快取名稱: ${cacheNames.join(', ') || '無'}
+      `;
+    })();
+  </script>
+</body>
+</html>

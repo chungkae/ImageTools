@@ -1,0 +1,48 @@
+{
+  "name": "imagetools",
+  "version": "1.0.0",
+  "description": "媒體轉換工具箱 - Base64、圖片格式轉換、GIF 製作",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "vitest",
+    "test:contract": "vitest run tests/contract",
+    "test:integration": "vitest run tests/integration",
+    "test:e2e": "playwright test",
+    "test:coverage": "vitest run --coverage",
+    "lint": "eslint src tests --ext .js",
+    "format": "prettier --write \"src/**/*.{js,css,html}\" \"tests/**/*.js\""
+  },
+  "keywords": [
+    "base64",
+    "image",
+    "converter",
+    "gif",
+    "webp",
+    "heic",
+    "媒體轉換"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "gif.js": "^0.2.0",
+    "heic2any": "^0.0.4"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.40.0",
+    "@vitest/coverage-v8": "^1.0.0",
+    "canvas": "^3.2.0",
+    "eslint": "^8.55.0",
+    "eslint-config-prettier": "^9.1.0",
+    "jsdom": "^27.0.1",
+    "prettier": "^3.1.0",
+    "vite": "^5.0.0",
+    "vitest": "^1.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  }
+}

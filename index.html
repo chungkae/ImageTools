@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="媒體轉換工具箱 - Base64 與圖片互轉、圖片格式轉換、GIF 動畫製作">
+  <meta name="keywords" content="Base64, 圖片轉換, GIF, WebP, HEIC, PNG">
+  <meta name="author" content="ImageTools">
+  
+  <!-- 安全性設定 (T086) -->
+  <!-- Note: connect-src 必須包含 WebSocket 協定以支援開發模式 HMR -->
+  <!-- Note: 'unsafe-eval' 是 heic2any 庫必需的（使用 new Function()） -->
+  <meta http-equiv="Content-Security-Policy" content="
+    default-src 'self';
+    script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:;
+    style-src 'self' 'unsafe-inline';
+    img-src 'self' data: blob:;
+    media-src 'self' blob:;
+    worker-src 'self' blob:;
+    connect-src 'self' ws://localhost:* wss://localhost:* http://localhost:* https://localhost:*;
+    font-src 'self';
+    object-src 'none';
+    base-uri 'self';
+    form-action 'self';
+  ">
+  <!-- Note: 以下標頭在生產環境應通過 HTTP headers 設定，meta 標籤在此僅作為文件記錄 -->
+  <!-- frame-ancestors, X-Frame-Options, X-Content-Type-Options 僅在 HTTP headers 中有效 -->
+  <meta name="referrer" content="no-referrer">
+  
+  <!-- PWA -->
+  <meta name="theme-color" content="#2563eb">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="媒體工具">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="apple-touch-icon" href="/icons/icon-192.png">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="/icons/icon-512.png">
+  
+  <title>媒體轉換工具箱</title>
+  
+  <!-- 樣式 -->
+  <link rel="stylesheet" href="/src/styles/reset.css">
+  <link rel="stylesheet" href="/src/styles/variables.css">
+  <link rel="stylesheet" href="/src/styles/layout.css">
+  <link rel="stylesheet" href="/src/styles/components.css">
+  <link rel="stylesheet" href="/src/styles/gif-maker.css">
+</head>
+<body>
+  <div id="app">
+    <header class="header">
+      <h1>🛠️ 媒體轉換工具箱</h1>
+      <p class="subtitle">本地處理，隱私無憂</p>
+    </header>
+
+    <main class="main">
+      <!-- Tab 切換 -->
+      <nav class="tabs" id="tabs">
+        <button class="tab-button active" data-tab="base64">Base64 轉換</button>
+        <button class="tab-button" data-tab="image-convert">圖片格式轉換</button>
+        <button class="tab-button" data-tab="gif-maker">GIF 製作</button>
+      </nav>
+
+      <!-- Tab 內容 -->
+      <div class="tab-content">
+        <!-- Base64 轉換 -->
+        <div id="base64-tab" class="tab-panel active">
+          <div class="converter-grid">
+            <!-- Base64 → 圖片 -->
+            <section class="converter-section">
+              <h2>Base64 → 圖片</h2>
+              <div id="base64-input-container"></div>
+              <button id="convert-base64-button" class="btn btn-primary">轉換為圖片</button>
+              <div id="base64-to-image-error"></div>
+              <div id="base64-to-image-preview"></div>
+              <div id="base64-download-container"></div>
+            </section>
+
+            <!-- 圖片 → Base64 -->
+            <section class="converter-section">
+              <h2>圖片 → Base64</h2>
+              <div id="image-to-base64-uploader"></div>
+              <div id="image-to-base64-error"></div>
+              <div id="base64-output-container" class="hidden"></div>
+            </section>
+          </div>
+        </div>
+
+        <!-- 圖片格式轉換 -->
+        <div id="image-convert-tab" class="tab-panel">
+          <section class="converter-section">
+            <h2>圖片格式轉換</h2>
+            <p class="info">支援 WebP、HEIC、SVG 等格式轉為 PNG</p>
+            <div id="image-converter"></div>
+          </section>
+        </div>
+
+        <!-- GIF 製作 -->
+        <div id="gif-maker-tab" class="tab-panel">
+          <section class="converter-section">
+            <h2>GIF 動畫製作</h2>
+            <p class="info">從影片或圖片序列產生 GIF</p>
+            <div id="gif-maker"></div>
+          </section>
+        </div>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <p>🔒 所有處理在瀏覽器本地進行，檔案不會上傳至伺服器</p>
+      <p class="version">v1.0.0</p>
+    </footer>
+  </div>
+
+  <!-- 應用程式入口點 -->
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
