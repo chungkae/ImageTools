@@ -4,20 +4,17 @@
  * 提供離線快取和資源管理功能
  */
 
-const CACHE_NAME = 'imagetools-v3'; // 更新版本號（修正 HEIC CSP 問題）
-const RUNTIME_CACHE = 'imagetools-runtime-v3';
+const CACHE_NAME = 'imagetools-v4'; // 更新版本號（修正生產環境路徑）
+const RUNTIME_CACHE = 'imagetools-runtime-v4';
 
-// 需要快取的核心資源
+// 需要快取的核心資源（生產環境路徑）
+// 注意：JS/CSS 檔案有 hash，由 Vite 自動處理，不需要在這裡列出
 const CORE_ASSETS = [
   '/',
   '/index.html',
-  '/src/main.js',
-  '/src/styles/reset.css',
-  '/src/styles/variables.css',
-  '/src/styles/layout.css',
-  '/src/styles/components.css',
-  '/src/styles/gif-maker.css',
   '/manifest.json'
+  // 移除 /src/ 路徑（開發環境專用）
+  // 動態資源會在 runtime 快取中處理
 ];
 
 // 安裝事件：快取核心資源
