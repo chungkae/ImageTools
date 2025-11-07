@@ -15,6 +15,7 @@ import { ImagePreview } from './components/ImagePreview.js';
 import { DownloadButton } from './components/DownloadButton.js';
 import { ImageConverterComponent } from './components/ImageConverterComponent.js';
 import GifMaker from './components/GifMaker.js';
+import PdfConverter from './components/PdfConverter.js';
 import { Base64Converter } from './services/base64Converter.js';
 import { copyToClipboard, generateFilename } from './utils/fileHelpers.js';
 import { ERROR_MESSAGES } from './constants/messages.js';
@@ -133,6 +134,7 @@ let base64Input, imageUploader, imagePreview, downloadButton, errorMessage;
 let base64ToImageUploader, base64Output, copyButton;
 let imageConverterComponent;
 let gifMaker;
+let pdfConverter;
 const converter = new Base64Converter();
 
 // Tab 切換功能
@@ -370,6 +372,24 @@ function initGifMaker() {
   }
 }
 
+// PDF 轉換功能初始化
+function initPdfConverter() {
+  const pdfConverterContainer = document.getElementById('pdf-converter');
+  
+  if (!pdfConverterContainer) {
+    console.error('PDF 轉換容器元素未找到');
+    return;
+  }
+  
+  try {
+    pdfConverter = new PdfConverter();
+    pdfConverterContainer.appendChild(pdfConverter.getElement());
+  } catch (error) {
+    console.error('PDF 轉換器初始化失敗:', error);
+    pdfConverterContainer.innerHTML = '<p style="color: red;">PDF 轉換器載入失敗，請檢查控制台錯誤</p>';
+  }
+}
+
 // 應用程式初始化
 function initApp() {
   try {
@@ -402,6 +422,13 @@ function initApp() {
     
     if (perfMode) {
       window.perfMarks?.mark('gif-ready');
+    }
+    
+    // 初始化 PDF 轉換功能
+    initPdfConverter();
+    
+    if (perfMode) {
+      window.perfMarks?.mark('pdf-ready');
       window.perfMarks?.mark('app-ready');
       
       // 顯示總初始化時間
@@ -414,6 +441,7 @@ function initApp() {
       window.perfMarks?.measure('base64-init', 'tabs-ready', 'base64-ready');
       window.perfMarks?.measure('converter-init', 'base64-ready', 'converter-ready');
       window.perfMarks?.measure('gif-init', 'converter-ready', 'gif-ready');
+      window.perfMarks?.measure('pdf-init', 'gif-ready', 'pdf-ready');
     }
     
     logger.info('應用程式初始化完成');

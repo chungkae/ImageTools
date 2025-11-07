@@ -14,6 +14,9 @@ export const FILE_SIZE_LIMITS = {
   // 影片檔案最大 100MB
   VIDEO: 100 * 1024 * 1024,
   
+  // PDF 檔案最大 100MB
+  PDF: 100 * 1024 * 1024,
+  
   // Base64 字串估算大小上限（對應 50MB 圖片）
   BASE64: 50 * 1024 * 1024,
 };

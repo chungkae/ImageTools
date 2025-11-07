@@ -292,10 +292,15 @@ export class ImageConverterComponent {
         }
       );
       
+      console.log('轉換完成，results:', results);
+      console.log('成功數量:', results.filter(r => r.success).length);
+      
       this.convertedResults = results.filter(r => r.success);
       
       // Show results
+      console.log('準備顯示結果...');
       this.displayResults(results, outputFormat);
+      console.log('結果已顯示');
       
       // Hide progress, show results
       progressContainer.classList.add('hidden');
@@ -337,10 +342,23 @@ export class ImageConverterComponent {
   }
   
   displayResults(results, outputFormat) {
+    console.log('displayResults 被調用，results:', results);
+    
     const resultsSection = this.container.querySelector('#results-section');
     const resultsGrid = this.container.querySelector('#results-grid');
     
+    console.log('resultsSection:', resultsSection);
+    console.log('resultsGrid:', resultsGrid);
+    
+    if (!resultsSection || !resultsGrid) {
+      console.error('找不到結果顯示區域！');
+      return;
+    }
+    
     resultsSection.classList.remove('hidden');
+    resultsSection.classList.add('visible');
+    console.log('已移除 hidden 類別並添加 visible 類別');
+    
     resultsGrid.innerHTML = '';
     
     results.forEach((result, index) => {

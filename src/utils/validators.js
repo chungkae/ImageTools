@@ -43,6 +43,29 @@ export function isVideoFile(file) {
 }
 
 /**
+ * 驗證檔案類型是否為 PDF
+ * 
+ * @param {File|Blob} file - 檔案物件
+ * @returns {boolean}
+ */
+export function isPdfFile(file) {
+  if (!file) return false;
+  
+  // 檢查 MIME type
+  if (file.type === 'application/pdf') {
+    return true;
+  }
+  
+  // 檢查副檔名
+  if (file.name) {
+    const ext = file.name.toLowerCase().match(/\.(\w+)$/)?.[1];
+    return ext === 'pdf';
+  }
+  
+  return false;
+}
+
+/**
  * 驗證檔案大小
  * 
  * @param {File|Blob} file - 檔案物件
@@ -61,7 +84,7 @@ export function validateFileSize(file, type = 'IMAGE') {
  * @param {Object} options - 驗證選項
  * @param {boolean} options.checkSize - 是否檢查大小
  * @param {boolean} options.checkType - 是否檢查類型
- * @param {'IMAGE'|'VIDEO'} options.expectedType - 預期類型
+ * @param {'IMAGE'|'VIDEO'|'PDF'} options.expectedType - 預期類型
  * @returns {{ valid: boolean, error?: string }}
  */
 export function validateFile(file, options = {}) {
@@ -77,9 +100,15 @@ export function validateFile(file, options = {}) {
 
   // 檢查類型
   if (checkType) {
-    const isValid = expectedType === 'IMAGE' 
-      ? isImageFile(file) 
-      : isVideoFile(file);
+    let isValid = false;
+    
+    if (expectedType === 'IMAGE') {
+      isValid = isImageFile(file);
+    } else if (expectedType === 'VIDEO') {
+      isValid = isVideoFile(file);
+    } else if (expectedType === 'PDF') {
+      isValid = isPdfFile(file);
+    }
     
     if (!isValid) {
       return { valid: false, error: 'UNSUPPORTED_FORMAT' };

@@ -11,6 +11,7 @@ export const ERROR_MESSAGES = {
   
   // 檔案相關
   INVALID_INPUT: '輸入資料無效，請檢查後重試',
+  INVALID_FILE_TYPE: '檔案類型不正確',
   FILE_TOO_LARGE: '檔案過大（限制 {limit}MB），請選擇較小的檔案',
   UNSUPPORTED_FORMAT: '不支援的檔案格式：{format}',
   FILE_READ_ERROR: '檔案讀取失敗，請重試',
@@ -41,6 +42,11 @@ export const ERROR_MESSAGES = {
   NO_IMAGES_PROVIDED: '請至少上傳一張圖片',
   VIDEO_LOAD_ERROR: '影片載入失敗，請確認檔案格式正確',
   GIF_TOO_LARGE: 'GIF 檔案過大（{size}MB），建議降低品質或尺寸',
+  
+  // PDF 相關
+  PDF_LOAD_ERROR: 'PDF 載入失敗，檔案可能已損壞',
+  PDF_PARSE_ERROR: 'PDF 解析失敗，請確認檔案格式正確',
+  PDF_RENDER_ERROR: 'PDF 頁面渲染失敗',
   
   // 網路相關（雖然是本地工具，但保留以備擴展）
   NETWORK_ERROR: '網路連線失敗',
